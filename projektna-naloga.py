@@ -1,68 +1,104 @@
 import tkinter as tk
 import random
 
-
-okno = tk.Tk()
-navodila = tk.Label(okno, text='\nNAVODILA: \n \nV izbranem številu poizkusov poizkušajte ugotoviti pravilno zaporedje štirih različnih barv. '
-'\nČe ga ne ugotovite, vam računalnik pove iskano rešitev.\n'
-'Po vsakem vnosu vam bo program sporočil koliko barv imate '
-'na pravem mestu z besedo "zelena" \nin koliko jih je sicer ustreznih, vendar na '
-'napačnem mestu, z besedo "rumena". Izbirate lahko \nmed barvami rumena, zelena, oranžna, modra, rdeča in siva. '
-'Barve ločujte s presledkom.\n')
-navodila.grid(row=0, column=0)
-okno.mainloop()
+#class Mastermind():
+#    def __init__(self, okno):
 
 
-konec = ''
-while konec == '':
-    stevila = ['1', '2', '3', '4', '5', '6']
-    sifra = []
 
 
-    #NASTAVITVE
-    dolzina_sifre = input('Napiši, kako dolgo šifro želiš. Izbiraš lahko med 4, 5 ali 6. Nato pritisni enter. \nIZBIRA: ')
-    while dolzina_sifre not in ('4', '5', '6'):
-        print('Vnesen podatek ni bil 4, 5 ali 6. Poizkusi ponovno.')
-        dolzina_sifre = input('Napiši, kako dolgo šifro želiš. Izbiraš lahko med 4, 5 ali 6. Nato pritisni enter. \nIZBIRA: ')
-    dolzina_sifre = int(dolzina_sifre)
+for i in range(1):
+    for j in range(1):
+        okno = tk.Tk()
+        #NAVODILA
+        navodila = tk.Label(text='\nNAVODILA: \n \nV izbranem številu poizkusov poizkušajte ugotoviti pravilno zaporedje štirih različnih barv. '
+        '\nČe ga ne ugotovite, vam računalnik pove iskano rešitev.\n'
+        'Po vsakem vnosu vam bo program sporočil koliko barv imate '
+        'na pravem mestu z besedo "zelena" \nin koliko jih je sicer ustreznih, vendar na '
+        'napačnem mestu, z besedo "rumena". Izbirate lahko \nmed barvami rumena, zelena, oranžna, modra, rdeča in siva. '
+        'Barve ločujte s presledkom.\n')
+        navodila.grid(row=0, column=0, columnspan=3)
 
-    #sestavimo šifro
-    while len(sifra) < dolzina_sifre:
-        znak = random.randint(0, 5)
-        if stevila[znak] not in sifra:
-            sifra.append(stevila[znak])
+        #POLJE ZA UGIBANJE
+        polje = tk.Frame(okno, width=100, height=100)
+        polje.grid(row=1, column=0)
 
-    stevilo_poskusov = input('Napiši, koliko poskusov želiš imeti. Nato pritisni enter. \nŠTEVILO POSKUSOV: ')
-    while stevilo_poskusov.isdigit() == False:
-        print('Vnesen podatek ni število. Vpiši število! ')
-        stevilo_poskusov = input('Napiši, koliko poskusov želiš imeti. Nato pritisni enter. \nŠTEVILO POSKUSOV: ')
-    stevilo_poskusov = int(stevilo_poskusov)
-    print('\n')
+        #GUMBI Z BARVAMI
+        temno_moder_gumb = tk.Button(okno, width=15, height=1, bg='RoyalBlue3')
+        temno_moder_gumb.grid(row=5, column=0)
+
+        oranzen_gumb = tk.Button(okno, width=15, height=1, bg='DarkOrange1')
+        oranzen_gumb.grid(row=5, column=1)
+
+        rdec_gumb = tk.Button(okno, width=15, height=1, bg='red3')
+        rdec_gumb.grid(row=5, column=2)
+
+        vijolicen_gumb = tk.Button(okno, width=15, height=1, bg='medium purple')
+        vijolicen_gumb.grid(row=6, column=0)
+
+        zlat_gumb = tk.Button(okno, width=15, height=1, bg='gold')
+        zlat_gumb.grid(row=6, column=1)
+
+        siv_gumb = tk.Button(okno, width=15, height=1, bg='cornsilk3')
+        siv_gumb.grid(row=6, column=2)
+
+        roza_gumb = tk.Button(okno, width=15, height=1, bg='salmon1')
+        roza_gumb.grid(row=7, column=0)
+
+        zelen_gumb = tk.Button(okno, width=15, height=1, bg='chartreuse3')
+        zelen_gumb.grid(row=7, column=1)
+
+        svetlo_moder_gumb = tk.Button(okno, width=15, height=1, bg='SteelBlue1')
+        svetlo_moder_gumb.grid(row=7, column=2)
 
 
-    #ALGORITEM
-    while stevilo_poskusov > 0:
-        pravilnost = []
-        ze_pregledana_stevila = []
-        izbira = input("vnesi šifro: ").split()
-        try:
-            for stevilo in range(len(sifra)):
-                if sifra[stevilo] == izbira[stevilo]:
-                    pravilnost.append('zelena')
-                    ze_pregledana_stevila.append(izbira[stevilo])
-                elif sifra[stevilo] in izbira and sifra[stevilo] != izbira[stevilo]:
-                    pravilnost.append('rumena')
-            pravilnost = sorted(pravilnost)[::-1]
-            if pravilnost == ['zelena', 'zelena', 'zelena', 'zelena']:
-                print('\n')
-                print('Uspelo ti je! :)')
-                break
-            print(izbira, pravilnost, sep = '  ', end = '\n')
-            stevilo_poskusov -= 1
-        except:
-            print('Vnos ni bil pravilen.')
-    print('\n')
-    print('Iskana rešitev je bila: {0}'.format(sifra))
-    konec = input('Za še eno igro pritisni ENTER.')
-    print('\n')
-sifra()
+
+
+
+
+        okno.mainloop()
+
+
+
+
+        konec = ''
+        while konec == '':
+            barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'salmon1', 'chartreuse3', 'SteelBlue1']
+            sifra = []
+
+
+            #sestavimo šifro
+            while len(sifra) < 4:
+                znak = random.randint(0, 5)
+                if barve[znak] not in sifra:
+                    sifra.append(barve[znak])
+
+
+            #ALGORITEM
+            for _ in range(9):
+                pravilnost = []
+                ze_pregledane_barve = []
+                izbira = input("vnesi šifro: ").split()
+                for barva in range(4):
+                    if sifra[barva] == izbira[barva]:
+                        pravilnost.append('zelena')
+                        ze_pregledane_barve.append(izbira[barva])
+                    elif sifra[barva] in izbira and sifra[barva] != izbira[barva]:
+                        pravilnost.append('rumena')
+                pravilnost = sorted(pravilnost)[::-1]
+                if pravilnost == ['zelena', 'zelena', 'zelena', 'zelena']:
+                    print('\n')
+                    print('Uspelo ti je! :)')
+                    break
+                print(izbira, pravilnost, sep = '  ', end = '\n')
+            print('\n')
+            print('Iskana rešitev je bila: {0}'.format(sifra))
+            konec = input('Za še eno igro pritisni ENTER.')
+            print('\n')
+        sifra()
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#okno = tk.Tk()
+#ugani_zaporedje = Mastermind(okno)
+#okno.mainloop()
