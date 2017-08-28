@@ -20,8 +20,12 @@ for i in range(1):
         navodila.grid(row=0, column=0, columnspan=3)
 
         #POLJE ZA UGIBANJE
-        polje = tk.Frame(okno, width=100, height=100)
-        polje.grid(row=1, column=0)
+        #polje = tk.Frame(okno, width=100, height=100)
+        #polje.grid(row=1, column=1)
+        #for a in range(9):
+        #    vnos = polje.create_rectangle(10, 10+a*25, 120, 30+a*25)
+        #    for b in range(4):
+        #        kvadratki = polje.create_square(15+b*30, 15+a*25, 25+b*30, 25+a*25)
 
         #GUMBI Z BARVAMI
         temno_moder_gumb = tk.Button(okno, width=15, height=1, bg='RoyalBlue3')
