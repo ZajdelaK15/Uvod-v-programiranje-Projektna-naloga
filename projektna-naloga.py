@@ -1,14 +1,23 @@
 from tkinter import *
 from random import randint
 
+
+ugib = 0
+krog = 0
+zaporedje = []
+zmaga = False
+sifra = []
+kombinacija = []
+
 #----------------------------------------------------------------------------------------------------------------------#
 
 class Mastermind():
     def __init__(self, master):
 
+        global ugib, krog, zaporedje, kombinacija
         barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'salmon1', 'chartreuse3', 'SteelBlue1']
         sifra = []
-        zmaga = False
+
 
         #GLAVNI MENI
         menu = Menu(master)
@@ -18,42 +27,16 @@ class Mastermind():
         file_menu = Menu(menu)
         menu.add_cascade(label='več možnosti', menu=file_menu)
 
-        file_menu.add_command(label='nova igra', command=self.ponastavi)
+        file_menu.add_command(label='nova igra', command=self.nova_igra)
         file_menu.add_command(label='izhod', command=master.destroy)
 
 
         #SESTAVIMO NAKLJUČNO ZAPOREDJE
-        while len(sifra) < 4:
+        for c in range(4):
             barva = randint(0, len(barve)-1)
-            if barve[barva] not in sifra:
-                 sifra.append(barve[barva])
+            sifra.append(barve[barva])
+            del barve[barva]
             #print(sifra)
-
-#            #ALGORITEM
-#            for _ in range(9):
-#                pravilnost = []
-#                ze_pregledane_barve = []
-#                izbira = input("vnesi šifro: ").split()
-#                for barva in range(4):
-#                    if sifra[barva] == izbira[barva]:
-#                        pravilnost.append('zelena')
-#                        ze_pregledane_barve.append(izbira[barva])
-#                    elif sifra[barva] in izbira and sifra[barva] != izbira[barva]:
-#                        pravilnost.append('rumena')
-#                pravilnost = sorted(pravilnost)[::-1]
-#                if pravilnost == ['zelena', 'zelena', 'zelena', 'zelena']:
-#                    print('\n')
-#                    print('Uspelo ti je! :)')
-#                    break
-#                print(izbira, pravilnost, sep = '  ', end = '\n')
-#            print('\n')
-#            print('Iskana rešitev je bila: {0}'.format(sifra))
-#            konec = input('Za še eno igro pritisni ENTER.')
-#            print('\n')
-#        sifra()
-
-
-
 
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -111,16 +94,22 @@ class Mastermind():
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-    def ponastavi(self):
+    def nova_igra(self):
+        global zmaga, sifra, ugib, krog, kombinacija
         zmaga = False
         barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'salmon1', 'chartreuse3', 'SteelBlue1']
         sifra = []
-        while len(sifra) < 4:
+        for c in range(4):
             barva = randint(0, len(barve)-1)
-            if barve[barva] not in sifra:
-                sifra.append(barve[barva])
+            sifra.append(barve[barva])
+            del barve[barva]
             #print(sifra)
+        ugib = 0
+        krog = 0
+        kombinacija = []
         self.polje.delete('all')
+        self.polje.create_text(215, 50, text=' pravilna \n barva na \n pravem \n mestu', justify='center')
+        self.polje.create_text(280, 50, text=' pravilna \n barva na \n napačnem \n mestu', justify='center')
         for i in range(9):
             vnos = self.polje.create_rectangle(55, 90+i*30, 165, 110+i*30)
             for j in range(4):
@@ -128,44 +117,116 @@ class Mastermind():
             pravilna_na_pravilnem = self.polje.create_rectangle(200, 90+i*30, 230, 110+i*30)
             pravilna_na_napacnem = self.polje.create_rectangle(265, 90+i*30, 295, 110+i*30)
 
-    def nastavi_barvo(self, colour):
-        pass
+
+    def izberi_barvo(self, colour):
+        global zaporedje, krog, ugib, zmaga, kombinacija
+        zaporedje = []
+        if (krog != 9) and (zmaga == False):
+            if colour in zaporedje:
+                opozorilo = Message(master=None, text='Barve v zaporedju so različne.')
+                opozorilo.pack()
+                potrditev = Button(master=None, text='v redu')
+                potrditev.pack()
+            elif ugib == 3:
+                kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=colour)
+                zaporedje.append(colour)
+                kombinacija.append(zaporedje) #drugače je index out of range
+
+
+                p_n_p = 0 #pravilna barva na pravilnem mestu
+                p_n_n = 0 #pravilna barva na napacnem mestu
+                for b in range(4):
+                    if kombinacija[krog][b] == sifra[b]:
+                        p_n_p += 1
+                    elif (kombinacija[krog][b] in sifra) and (zaporedje[krog][b] != sifra[b]):
+                        p_n_n += 1
+                    else:
+                        pass
+                prvi_kvadratek = self.polje.create_rectangle(210, 100+krog*30, text=p_n_p)
+                drugi_kvadratek = self.polje.create_rectangle(275, 100+krog*30, text=p_n_n)
+                if p_n_p == 4:
+                    dobro_sporocilo = Message(master=None, text='Bravo, uspelo vam je.')
+                    dobro_sporocilo.pack()
+                    odgovor1 = Button(master=None, text='nova igra', command=self.nova_igra)
+                    odgovor1.pack()
+                    odgovor2 = Button(master=None, text='končaj', command=None.destroy)
+                    odgovor2.pack()
+                    zmaga = True
+                elif krog == 8:
+                    slabo_sporocilo = Message(master=None, text='Žal ste izgubili. Želite poizkusiti ponovno?')
+                    slabo_sporocilo.pack()
+                    odgovor3 = Button(master=None, text='da', command=self.nova_igra)
+                    odgovor3.pack()
+                    odgovor4 = Button(master=None, text='ne', command=None.destroy)
+                    odgovor4.pack()
+
+
+                ugib = 0
+                zaporedje = []
+                krog += 1
+            else:
+                if ugib == 0:
+                    zaporedje = []
+                kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=colour)
+                zaporedje.append(colour)
+                ugib += 1
+
 
     def nastavi_temno_modro(self):
-        self.nastavi_barvo('RoyalBlue3')
+        self.izberi_barvo('RoyalBlue3')
 
     def nastavi_oranzno(self):
-        self.nastavi_barvo('DarkOrange1')
+        self.izberi_barvo('DarkOrange1')
 
     def nastavi_rdeco(self):
-        self.nastavi_barvo('red3')
+        self.izberi_barvo('red3')
 
     def nastavi_vijolicno(self):
-        self.nastavi_barvo('medium purple')
+        self.izberi_barvo('medium purple')
 
     def nastavi_zlato(self):
-        self.nastavi_barvo('gold')
+        self.izberi_barvo('gold')
 
     def nastavi_sivo(self):
-        self.nastavi_barvo('cornsilk3')
+        self.izberi_barvo('cornsilk3')
 
     def nastavi_roza(self):
-        self.nastavi_barvo('salmon1')
+        self.izberi_barvo('salmon1')
 
     def nastavi_zeleno(self):
-        self.nastavi_barvo('chartreuse3')
+        self.izberi_barvo('chartreuse3')
 
     def nastavi_svetlo_modro(self):
-        self.nastavi_barvo('SteelBlue1')
+        self.izberi_barvo('SteelBlue1')
 
 
 
-
-
-
-
-
-
+#    def preveri_vneseno_zaporedje(self):
+#        global zmaga, krog, sifra, kombinacija
+#        p_n_p = 0 #pravilna barva na pravilnem mestu
+#        p_n_n = 0 #pravilna barva na napacnem mestu
+#        for b in range(0, 4):
+#            if kombinacija[krog][b] == sifra[b]:
+#                p_n_p += 1
+#            elif (kombinacija[krog][b] in sifra) and (zaporedje[krog][b] != sifra[b]):
+#                p_n_n += 1
+#        prvi_kvadratek = self.polje.create_rectangle(210, 100+krog*30, text=p_n_p)
+#        drugi_kvadratek = self.polje.create_rectangle(275, 100+krog*30, text=p_n_n)
+#        if krog == 8:
+#            slabo_sporocilo = Message(master=None, text='Žal ste izgubili. Želite poizkusiti ponovno?')
+#            slabo_sporocilo.pack()
+#            odgovor1 = Button(master=None, text='da', command=self.nova_igra)
+#            odgovor1.pack()
+#            odgovor2 = Button(master=None, text='ne', command=None.destroy)
+#            odgovor2.pack()
+#        elif p_n_p == 4:
+#            dobro_sporocilo = Message(master=None, text='Bravo, uspelo vam je.')
+#            dobro_sporocilo.pack()
+#            odgovor3 = Button(master=None, text='nova igra', command=self.nova_igra)
+#            odgovor3.pack()
+#            odgovor4 = Button(master=None, text='končaj', command=None.destroy)
+#            odgovor4.pack()
+#            zmaga = True
 
 
 #----------------------------------------------------------------------------------------------------------------------#
