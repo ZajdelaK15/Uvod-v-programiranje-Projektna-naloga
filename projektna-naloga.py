@@ -59,11 +59,12 @@ class Mastermind():
 #----------------------------------------------------------------------------------------------------------------------#
 
         #NAVODILA
-        navodila = Label(text='\nUGANI ZAPOREDJE \n \nNAVODILA: V izbranem številu '
-                              'poizkusov poizkušajte ugotoviti pravilno zaporedje \n '
-                              'štirih različnih barv. Ob vsakem vnosu vam program sporoči koliko barv'
-                              'je pravilnih \n in hkrati na pravem mestu in koliko barv je pravilnih, '
-                              'vendar na napačnem mestu. \n')
+        navodila = Label(text='\nUGANI ZAPOREDJE \n \nNAVODILA: S pomočjo logičnega razmišljanja '
+                              'in s klikanjem na barvaste gumbe \n poizkušajte ugotoviti pravilno zaporedje '
+                              'štirih različnih barv, ki ga je za vas pripravil računalnik. \n '
+                              'Ob vsaki izpolnjeni vrstici vam program v prvi kvadratek vpiše število barv, '
+                              'ki so pravilne in hkrati \n na pravem mestu, v drugi kvadratek pa koliko barv je pravilnih, '
+                              'vendar na napačnem mestu. \n Če vam v ponujenem številu poskusov uspe ugotoviti pravilno zaporedje, ste zmagali.\n')
         navodila.grid(row=0, column=0, columnspan=3)
 
 
