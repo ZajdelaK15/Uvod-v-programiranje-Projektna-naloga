@@ -1,4 +1,4 @@
-import tkinter as tk
+from tkinter import *
 import random
 
 #class Mastermind():
@@ -9,50 +9,53 @@ import random
 
 for i in range(1):
     for j in range(1):
-        okno = tk.Tk()
+        okno = Tk()
         #NAVODILA
-        navodila = tk.Label(text='\nNAVODILA: \n \nV izbranem številu poizkusov poizkušajte ugotoviti pravilno zaporedje štirih različnih barv. '
-        '\nČe ga ne ugotovite, vam računalnik pove iskano rešitev.\n'
-        'Po vsakem vnosu vam bo program sporočil koliko barv imate '
-        'na pravem mestu z besedo "zelena" \nin koliko jih je sicer ustreznih, vendar na '
-        'napačnem mestu, z besedo "rumena". Izbirate lahko \nmed barvami rumena, zelena, oranžna, modra, rdeča in siva. '
-        'Barve ločujte s presledkom.\n')
+        navodila = Label(text='\nUGANI ZAPOREDJE \n \nNAVODILA: V izbranem številu poizkusov poizkušajte ugotoviti pravilno zaporedje \n '
+                              'štirih različnih barv. Ob vsakem vnosu vam program sporoči koliko barv'
+                              'je pravilnih \n in hkrati na pravem mestu in koliko barv je pravilnih, vendar na napačnem mestu. \n')
         navodila.grid(row=0, column=0, columnspan=3)
 
+
         #POLJE ZA UGIBANJE
-        #polje = tk.Frame(okno, width=100, height=100)
-        #polje.grid(row=1, column=1)
-        #for a in range(9):
-        #    vnos = polje.create_rectangle(10, 10+a*25, 120, 30+a*25)
-        #    for b in range(4):
-        #        kvadratki = polje.create_square(15+b*30, 15+a*25, 25+b*30, 25+a*25)
+        polje = Canvas(okno, width=310, height=400)
+        polje.grid(row=1, column=1)
+        polje.create_text(215, 50, text=' pravilna \n barva na \n pravem \n mestu', justify='center')
+        polje.create_text(280, 50, text=' pravilna \n barva na \n napačnem \n mestu', justify='center')
+        for a in range(9):
+            vnos = polje.create_rectangle(55, 90+a*30, 165, 110+a*30)
+            for b in range(4):
+                kvadratki = polje.create_rectangle(60+b*30, 95+a*30, 70+b*30, 105+a*30)
+            pravilna_pravilnem = polje.create_rectangle(200, 90+a*30, 230, 110+a*30)
+            pravilna_napacnem = polje.create_rectangle(265, 90+a*30, 295, 110+a*30)
+
 
         #GUMBI Z BARVAMI
-        temno_moder_gumb = tk.Button(okno, width=15, height=1, bg='RoyalBlue3')
+        temno_moder_gumb = Button(okno, width=15, height=1, bg='RoyalBlue3')
         temno_moder_gumb.grid(row=5, column=0)
 
-        oranzen_gumb = tk.Button(okno, width=15, height=1, bg='DarkOrange1')
+        oranzen_gumb = Button(okno, width=15, height=1, bg='DarkOrange1')
         oranzen_gumb.grid(row=5, column=1)
 
-        rdec_gumb = tk.Button(okno, width=15, height=1, bg='red3')
+        rdec_gumb = Button(okno, width=15, height=1, bg='red3')
         rdec_gumb.grid(row=5, column=2)
 
-        vijolicen_gumb = tk.Button(okno, width=15, height=1, bg='medium purple')
+        vijolicen_gumb = Button(okno, width=15, height=1, bg='medium purple')
         vijolicen_gumb.grid(row=6, column=0)
 
-        zlat_gumb = tk.Button(okno, width=15, height=1, bg='gold')
+        zlat_gumb = Button(okno, width=15, height=1, bg='gold')
         zlat_gumb.grid(row=6, column=1)
 
-        siv_gumb = tk.Button(okno, width=15, height=1, bg='cornsilk3')
+        siv_gumb = Button(okno, width=15, height=1, bg='cornsilk3')
         siv_gumb.grid(row=6, column=2)
 
-        roza_gumb = tk.Button(okno, width=15, height=1, bg='salmon1')
+        roza_gumb = Button(okno, width=15, height=1, bg='salmon1')
         roza_gumb.grid(row=7, column=0)
 
-        zelen_gumb = tk.Button(okno, width=15, height=1, bg='chartreuse3')
+        zelen_gumb = Button(okno, width=15, height=1, bg='chartreuse3')
         zelen_gumb.grid(row=7, column=1)
 
-        svetlo_moder_gumb = tk.Button(okno, width=15, height=1, bg='SteelBlue1')
+        svetlo_moder_gumb = Button(okno, width=15, height=1, bg='SteelBlue1')
         svetlo_moder_gumb.grid(row=7, column=2)
 
 
@@ -103,6 +106,6 @@ for i in range(1):
 
 
 #----------------------------------------------------------------------------------------------------------------------#
-#okno = tk.Tk()
+#okno = Tk()
 #ugani_zaporedje = Mastermind(okno)
 #okno.mainloop()
