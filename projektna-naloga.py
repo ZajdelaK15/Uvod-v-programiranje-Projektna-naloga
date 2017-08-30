@@ -115,7 +115,6 @@ class Mastermind():
                 kvadratki = self.polje.create_rectangle(60+j*30, 95+i*30, 70+j*30, 105+i*30)
             pravilna_na_pravilnem = self.polje.create_rectangle(200, 90+i*30, 230, 110+i*30)
             pravilna_na_napacnem = self.polje.create_rectangle(265, 90+i*30, 295, 110+i*30)
-        self.izberi_barvo()
 
 
     def izberi_barvo(self, barva):
