@@ -1,0 +1,114 @@
+        krog = 9
+        ugib = 0
+        p_n_p = 0 #pravilna barva na pravilnem mestu
+        p_n_n = 0 #pravilna barva na napacnem mestu
+
+        while krog > 0:
+            pravilnost = []
+            ze_pregledane_barve = []
+            #izbiranje barv
+            if barva in zaporedje:
+                opozorilno_okno = Toplevel()
+                opozorilo = Message(opozorilno_okno, text='Barve v zaporedju so različne.')
+                opozorilo.grid(row=0, column=0)
+                potrditev = Button(opozorilno_okno, text='v redu')
+                potrditev.grid(row=0, column=1)
+            elif ugib == 3:
+                kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
+                zaporedje.append(barva)
+
+                for znak in range(len(sifra)):
+                    if sifra[znak] == zaporedje[znak]:
+                        p_n_p += 1
+                        ze_pregledane_barve.append(zaporedje[znak])
+                    elif sifra[barva] in zaporedje and sifra[barva] != zaporedje[barva]:
+                        p_n_n += 1
+                prvi_kvadratek = self.polje.create_text(210, 100+krog*30, text=p_n_p)
+                drugi_kvadratek = self.polje.create_text(275, 100+krog*30, text=p_n_n)
+                pravilnost = [p_n_p, p_n_n]
+                if pravilnost == [4, 0]:
+                    d_s = Toplevel()
+                    dobro_sporocilo = Message(d_s, text='Bravo, uspelo vam je.')
+                    dobro_sporocilo.grid(row=0, column=0, columnspan=2)
+                    odgovor3 = Button(d_s, text='nova igra', command=self.nova_igra)
+                    odgovor3.grid(row=0, column=0)
+                    odgovor4 = Button(d_s, text='končaj', command=d_s.destroy)
+                    odgovor4.pack(row=0, column=1)
+
+                ugib = 0
+                zaporedje = []
+                krog -= 1
+            else:
+                if ugib == 0:
+                    zaporedje = []
+                kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
+                zaporedje.append(barva)
+                ugib += 1
+                
+                
+                
+PROGRAM BREZ TKINTER               
+
+import random
+
+navodila = print('
+NAVODILA: V izbranem številu poizkusov poizkušajte ugotoviti pravilno zaporedje štirih različnih barv.
+Če zaporedja ne ugotovite, vam računalnik pove iskano rešitev.
+Po vsakem vnosu vam bo program sporočil koliko barv imate na pravem mestu z besedo "zelena" 
+in koliko jih je sicer ustreznih, vendar na napačnem mestu, z besedo "rumena". 
+Izbirate lahko med barvami B-bela, R-rumena, O-oranžna, Z-zelena, M-modra, V-vijolična, S-siva, Č-črna in T-turkizna.
+Barve ločujte s presledkom.')
+
+konec = ''
+while konec == '':
+    barve = ['B', 'R', 'O', 'Z', 'M', 'V', 'S', 'Č', 'T']
+    sifra = []
+
+
+    #NASTAVITVE
+    dolzina_sifre = input('Napiši, kako dolgo šifro želiš. Izbiraš lahko med 4, 5 ali 6. Nato pritisni enter. \nIZBIRA: ')
+    while dolzina_sifre not in ('4', '5', '6'):
+        print('Vnesen podatek ni bil 4, 5 ali 6. Poizkusi ponovno.')
+        dolzina_sifre = input('Napiši, kako dolgo šifro želiš. Izbiraš lahko med 4, 5 ali 6. Nato pritisni enter. \nIZBIRA: ')
+    dolzina_sifre = int(dolzina_sifre)
+
+    #sestavimo šifro
+   while len(sifra) < dolzina_sifre:
+        znak = random.randint(0, 5)
+        if barve[znak] not in sifra:
+            sifra.append(barve[znak])
+
+    stevilo_poskusov = input('Napiši, koliko poskusov želiš imeti. Nato pritisni enter. \nŠTEVILO POSKUSOV: ')
+    while stevilo_poskusov.isdigit() == False:
+        print('Vnesen podatek ni število. Vpiši število! ')
+        stevilo_poskusov = input('Napiši, koliko poskusov želiš imeti. Nato pritisni enter. \nŠTEVILO POSKUSOV: ')
+    stevilo_poskusov = int(stevilo_poskusov)
+    print('\n')             
+                
+                
+                
+     while stevilo_poskusov > 0:
+        pravilnost = []
+        ze_pregledane_barve = []
+        zaporedje = input("vnesi šifro: ").split()
+        try:
+            for znak in range(len(sifra)):
+                if sifra[znak] == zaporedje[znak]:
+                    pravilnost.append('zelena')
+                    ze_pregledane_barve.append(zaporedje[znak])
+                elif sifra[znak] in zaporedje and sifra[znak] != zaporedje[znak]:
+                    pravilnost.append('rumena')
+            pravilnost = sorted(pravilnost)[::-1]
+            if pravilnost == ['zelena', 'zelena', 'zelena', 'zelena']:
+                print('\n')
+                print('Uspelo ti je! :)')
+                break
+            print(zaporedje, pravilnost, sep = '  ', end = '\n')
+            stevilo_poskusov -= 1
+        except:
+            print('Vnos ni bil pravilen.')
+    print('\n')
+    print('Iskana rešitev je bila: {0}'.format(sifra))
+    konec = input('Za še eno igro pritisni ENTER.')
+    print('\n')
+sifra()
