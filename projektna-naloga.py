@@ -9,6 +9,7 @@ zmaga = False
 sifra = []
 kombinacija = []
 barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
+pravilnost = []
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -100,7 +101,7 @@ class Mastermind():
         zmaga = False
         barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
         ugib = 0
-        krog = 9
+        krog = 0
         kombinacija = []
         self.polje.delete('all')
         sifra = []
@@ -124,7 +125,7 @@ class Mastermind():
         barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
         zaporedje = []
 
-        if (krog != 0) and (zmaga == False):
+        if (krog != 9) and (zmaga == False):
             if barva in zaporedje:
                 opozorilno_okno = Toplevel()
                 opozorilo = Message(opozorilno_okno, text='Barve v zaporedju so različne.')
@@ -138,7 +139,7 @@ class Mastermind():
                 self.preveri_vneseno_zaporedje()
                 ugib = 0
                 zaporedje = []
-                krog -= 1
+                krog += 1
             else:
                 if ugib == 0:
                     zaporedje = []
@@ -146,7 +147,7 @@ class Mastermind():
                 zaporedje.append(barva)
                 ugib += 1
 
-#        krog = 9
+#        krog = 0
 #        ugib = 0
 #        p_n_p = 0 #pravilna barva na pravilnem mestu
 #        p_n_n = 0 #pravilna barva na napacnem mestu
@@ -185,7 +186,7 @@ class Mastermind():
 #
 #                ugib = 0
 #                zaporedje = []
-#                krog -= 1
+#                krog += 1
 #            else:
 #                if ugib == 0:
 #                    zaporedje = []
@@ -224,13 +225,15 @@ class Mastermind():
 
 
     def preveri_vneseno_zaporedje(self):
+        global sifra, kombinacija, krog, pravilnost, zaporedje, zmaga
         p_n_p = 0 #pravilna barva na pravilnem mestu
         p_n_n = 0 #pravilna barva na napacnem mestu
         for b in range(len(sifra)):
-            if sifra[b] == zaporedje[b]:
+            if sifra[b] == kombinacija[b]:
                 p_n_p += 1
-            elif (sifra[b] in zaporedje) and (sifra[b] != zaporedje[b]):
+            elif (kombinacija[b] in sifra) and (sifra[b] != kombinacija[b]):
                 p_n_n += 1
+        pravilnost.append([p_n_n, p_n_p])
         prvi_kvadratek = self.polje.create_text(210, 100+krog*30, text=p_n_p)
         drugi_kvadratek = self.polje.create_text(275, 100+krog*30, text=p_n_n)
         if p_n_p == 4:
@@ -250,7 +253,6 @@ class Mastermind():
             odgovor1.grid(row=1, column=0)
             odgovor2 = Button(s_s, text='ne', command=s_s.destroy)
             odgovor2.grid(row=1, column=1)
-
 
 
 #----------------------------------------------------------------------------------------------------------------------#
