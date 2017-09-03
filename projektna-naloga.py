@@ -118,28 +118,53 @@ class Mastermind():
 
 
     def izberi_barvo(self, barva):
-        global zaporedje, krog, ugib, zmaga
+        global zaporedje, krog, ugib, zmaga, sifra
         zaporedje = []
-        if (krog != 9) and (zmaga == False):
-            if barva in zaporedje:
-                opozorilno_okno = Tk()
-                opozorilo = Message(master=opozorilno_okno, text='Barve v zaporedju so različne.')
-                opozorilo.grid(row=0, column=0)
-                potrditev = Button(master=opozorilno_okno, text='v redu')
-                potrditev.grid(row=0, column=1)
-            elif ugib == 3:
-                kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
-                zaporedje.append(barva)
-                self.preveri_vneseno_zaporedje()
-                ugib = 0
-                zaporedje = []
-                krog += 1
-            else:
-                if ugib == 0:
-                    zaporedje = []
+        sifra = []
+        while len(sifra) < 4:
+            znak = randint(0, len(barve)-1)
+            if barve[znak] not in sifra:
+                sifra.append(barve[znak])
+        #print(sifra)
+        if krog < 9 and zmaga == False:
+            while ugib < 4:
                 kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
                 zaporedje.append(barva)
                 ugib += 1
+                #print(zaporedje)
+        kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
+        zaporedje.append(barva)
+        #print(zaporedje)
+        self.preveri_vneseno_zaporedje()
+
+        ugib = 0
+        zaporedje = []
+        krog += 1
+
+
+
+
+#        zaporedje = []
+#        if (krog != 9) and (zmaga == False):
+#            if barva in zaporedje:
+#                opozorilno_okno = Toplevel()
+#                opozorilo = Message(opozorilno_okno, text='Barve v zaporedju so različne.')
+#                opozorilo.grid(row=0, column=0)
+#                potrditev = Button(opozorilno_okno, text='v redu')
+#                potrditev.grid(row=0, column=1)
+#            elif ugib == 3:
+#                kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
+#                zaporedje.append(barva)
+#                self.preveri_vneseno_zaporedje()
+#                ugib = 0
+#                zaporedje = []
+#                krog += 1
+#            else:
+#                if ugib == 0:
+#                    zaporedje = []
+#                kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
+#                zaporedje.append(barva)
+#                ugib += 1
 
 
     def izberi_temno_modro(self):
@@ -175,7 +200,7 @@ class Mastermind():
         p_n_p = 0 #pravilna barva na pravilnem mestu
         p_n_n = 0 #pravilna barva na napacnem mestu
         for b in range(len(sifra)):
-            if zaporedje[b] == sifra[b]:
+            if sifra[b] == zaporedje[b]:
                 p_n_p += 1
             elif (sifra[b] in zaporedje) and (sifra[b] != zaporedje[b]):
                 p_n_n += 1
