@@ -14,9 +14,10 @@ barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk
 
 class Mastermind():
     def __init__(self, master):
+        self.master = master
 
         global ugib, krog, zaporedje, kombinacija
-        barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'salmon1', 'chartreuse3', 'SteelBlue1']
+        barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
         sifra = []
 
         #GLAVNI MENI
@@ -36,7 +37,7 @@ class Mastermind():
             znak = randint(0, len(barve)-1)
             if barve[znak] not in sifra:
                 sifra.append(barve[znak])
-        #print(sifra)
+        print(sifra)
 
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -52,7 +53,7 @@ class Mastermind():
 
 
         #POLJE ZA UGIBANJE
-        self.polje = Canvas(master, width=300, height=400)
+        self.polje = Canvas(master, width=310, height=400)
         self.polje.grid(row=1, column=1)
         self.polje.create_text(215, 50, text=' pravilna \n barva na \n pravem \n mestu', justify='center')
         self.polje.create_text(280, 50, text=' pravilna \n barva na \n napačnem \n mestu', justify='center')
@@ -95,18 +96,19 @@ class Mastermind():
 #----------------------------------------------------------------------------------------------------------------------#
 
     def nova_igra(self):
-        global zmaga, sifra, ugib, krog
+        global zmaga, sifra, ugib, krog, kombinacija
         zmaga = False
         barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
         ugib = 0
-        krog = 0
+        krog = 9
+        kombinacija = []
         self.polje.delete('all')
         sifra = []
         while len(sifra) < 4:
             znak = randint(0, len(barve)-1)
             if barve[znak] not in sifra:
                 sifra.append(barve[znak])
-        #print(sifra)
+        print(sifra)
         self.polje.create_text(215, 50, text=' pravilna \n barva na \n pravem \n mestu', justify='center')
         self.polje.create_text(280, 50, text=' pravilna \n barva na \n napačnem \n mestu', justify='center')
         for i in range(9):
@@ -118,34 +120,41 @@ class Mastermind():
 
 
     def izberi_barvo(self, barva):
-        global zaporedje, krog, ugib, zmaga, sifra
+        global zaporedje, krog, ugib, zmaga, barve, kombinacija
+        barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
         zaporedje = []
-        sifra = []
-        while len(sifra) < 4:
-            znak = randint(0, len(barve)-1)
-            if barve[znak] not in sifra:
-                sifra.append(barve[znak])
-        #print(sifra)
-        if krog < 9 and zmaga == False:
-            while ugib < 4:
+
+        if (krog != 0) and (zmaga == False):
+            if barva in zaporedje:
+                opozorilno_okno = Toplevel()
+                opozorilo = Message(opozorilno_okno, text='Barve v zaporedju so različne.')
+                opozorilo.grid(row=0, column=0)
+                potrditev = Button(opozorilno_okno, text='v redu')
+                potrditev.grid(row=0, column=1)
+            elif ugib == 3:
+                kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
+                zaporedje.append(barva)
+                kombinacija.append(zaporedje)
+                self.preveri_vneseno_zaporedje()
+                ugib = 0
+                zaporedje = []
+                krog -= 1
+            else:
+                if ugib == 0:
+                    zaporedje = []
                 kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
                 zaporedje.append(barva)
                 ugib += 1
-                #print(zaporedje)
-        kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
-        zaporedje.append(barva)
-        #print(zaporedje)
-        self.preveri_vneseno_zaporedje()
 
-        ugib = 0
-        zaporedje = []
-        krog += 1
-
-
-
-
-#        zaporedje = []
-#        if (krog != 9) and (zmaga == False):
+#        krog = 9
+#        ugib = 0
+#        p_n_p = 0 #pravilna barva na pravilnem mestu
+#        p_n_n = 0 #pravilna barva na napacnem mestu
+#
+#        while krog > 0:
+#            pravilnost = []
+#            ze_pregledane_barve = []
+#            #izbiranje barv
 #            if barva in zaporedje:
 #                opozorilno_okno = Toplevel()
 #                opozorilo = Message(opozorilno_okno, text='Barve v zaporedju so različne.')
@@ -155,10 +164,28 @@ class Mastermind():
 #            elif ugib == 3:
 #                kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
 #                zaporedje.append(barva)
-#                self.preveri_vneseno_zaporedje()
+#
+#                for znak in range(len(sifra)):
+#                    if sifra[znak] == zaporedje[znak]:
+#                        p_n_p += 1
+#                        ze_pregledane_barve.append(zaporedje[znak])
+#                    elif sifra[barva] in zaporedje and sifra[barva] != zaporedje[barva]:
+#                        p_n_n += 1
+#                prvi_kvadratek = self.polje.create_text(210, 100+krog*30, text=p_n_p)
+#                drugi_kvadratek = self.polje.create_text(275, 100+krog*30, text=p_n_n)
+#                pravilnost = [p_n_p, p_n_n]
+#                if pravilnost == [4, 0]:
+#                    d_s = Toplevel()
+#                    dobro_sporocilo = Message(d_s, text='Bravo, uspelo vam je.')
+#                    dobro_sporocilo.grid(row=0, column=0, columnspan=2)
+#                    odgovor3 = Button(d_s, text='nova igra', command=self.nova_igra)
+#                    odgovor3.grid(row=0, column=0)
+#                    odgovor4 = Button(d_s, text='končaj', command=d_s.destroy)
+#                    odgovor4.pack(row=0, column=1)
+#
 #                ugib = 0
 #                zaporedje = []
-#                krog += 1
+#                krog -= 1
 #            else:
 #                if ugib == 0:
 #                    zaporedje = []
