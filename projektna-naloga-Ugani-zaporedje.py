@@ -108,7 +108,7 @@ class Mastermind():
             znak = randint(0, len(barve)-1)
             if barve[znak] not in sifra:
                 sifra.append(barve[znak])
-        print(sifra)
+        #print(sifra)
         self.polje.create_text(215, 50, text=' pravilna \n barva na \n pravem \n mestu', justify='center')
         self.polje.create_text(280, 50, text=' pravilna \n barva na \n napačnem \n mestu', justify='center')
         for i in range(9):
