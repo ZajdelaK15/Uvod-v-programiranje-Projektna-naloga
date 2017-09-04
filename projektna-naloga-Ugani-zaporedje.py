@@ -36,7 +36,7 @@ class Mastermind():
             znak = randint(0, len(barve)-1)
             if barve[znak] not in sifra:
                 sifra.append(barve[znak])
-        print(sifra)
+        #print(sifra)
 
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -133,14 +133,14 @@ class Mastermind():
                 kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
                 zaporedje.append(barva)
                 self.preveri_vneseno_zaporedje()
-                print(zaporedje, krog)
+                #print(zaporedje, krog)
                 ugib = 0
                 zaporedje = []
                 krog += 1
             else:
                 kvadratki = self.polje.create_rectangle(60+ugib*30, 95+krog*30, 70+ugib*30, 105+krog*30, fill=barva)
                 zaporedje.append(barva)
-                print(zaporedje)
+                #print(zaporedje)
                 ugib += 1
 
 
@@ -177,7 +177,7 @@ class Mastermind():
         global sifra, krog, zaporedje, zmaga
         p_n_p = 0 #pravilna barva na pravilnem mestu
         p_n_n = 0 #pravilna barva na napacnem mestu
-        print(zaporedje)
+        #print(zaporedje)
         for b in range(len(sifra)):
             if sifra[b] == zaporedje[b]:
                 p_n_p += 1
