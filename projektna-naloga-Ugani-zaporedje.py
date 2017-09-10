@@ -7,7 +7,7 @@ krog = 0
 zaporedje = []
 zmaga = False
 sifra = []
-barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
+barve = ['RoyalBlue3', 'DarkOrange1', 'red2', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -16,7 +16,7 @@ class Mastermind():
         self.okno = okno
 
         global ugib, krog, zaporedje, kombinacija
-        barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
+        barve = ['RoyalBlue3', 'DarkOrange1', 'red2', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
         sifra = []
 
         #GLAVNI MENI
@@ -73,7 +73,7 @@ class Mastermind():
         oranzen_gumb = Button(okno, width=15, height=1, bg='DarkOrange1', command=self.izberi_oranzno)
         oranzen_gumb.grid(row=5, column=1)
 
-        rdec_gumb = Button(okno, width=15, height=1, bg='red3', command=self.izberi_rdeco)
+        rdec_gumb = Button(okno, width=15, height=1, bg='red2', command=self.izberi_rdeco)
         rdec_gumb.grid(row=5, column=2)
 
         vijolicen_gumb = Button(okno, width=15, height=1, bg='medium purple', command=self.izberi_vijolicno)
@@ -99,7 +99,7 @@ class Mastermind():
     def nova_igra(self):
         global zmaga, sifra, ugib, krog
         zmaga = False
-        barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
+        barve = ['RoyalBlue3', 'DarkOrange1', 'red2', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
         ugib = 0
         krog = 0
         self.polje.delete('all')
@@ -121,7 +121,7 @@ class Mastermind():
 
     def izberi_barvo(self, barva):
         global zaporedje, krog, ugib, zmaga, barve
-        barve = ['RoyalBlue3', 'DarkOrange1', 'red3', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
+        barve = ['RoyalBlue3', 'DarkOrange1', 'red2', 'medium purple', 'gold', 'cornsilk3', 'pink', 'chartreuse3', 'SteelBlue1']
         if (krog != 9) and (zmaga == False):
             if barva in zaporedje:
                 opozorilno_okno = Toplevel()
@@ -151,7 +151,7 @@ class Mastermind():
         self.izberi_barvo('DarkOrange1')
 
     def izberi_rdeco(self):
-        self.izberi_barvo('red3')
+        self.izberi_barvo('red2')
 
     def izberi_vijolicno(self):
         self.izberi_barvo('medium purple')
